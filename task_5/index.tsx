@@ -8,7 +8,7 @@ import styles from './page.module.css';
 import { fetchOnePost } from '@/libs/fetchOnePost';
 
 const ComponentOne = () => {
-    const { data } = useSWR('custom_key_1', fetchOnePost);
+    const { data } = useSWR('custom_key', fetchOnePost);
     //...some logic
 
     return data ? (
@@ -23,7 +23,7 @@ const ComponentOne = () => {
 };
 
 const ComponentTwo = () => {
-    const { data } = useSWR('custom_key_2', () => fetchOnePost({ delayMS: 2000 }));
+    const { data } = useSWR('custom_key', () => fetchOnePost({ delayMS: 2000 }));
     //...some logic
 
     return data ? (
