@@ -1,6 +1,6 @@
 interface BallonI {
-    id: number
-    isPublic: boolean
+  id: number
+  isPublic: boolean
 }
 
 /**
@@ -10,38 +10,61 @@ interface BallonI {
  * @example const res = await fetchBallonAmount(202);
  */
 async function fetchBallonAmount(id: BallonI['id']): Promise<number> {
-	const RANDOM_TIMEOUT: number = Math.ceil(Math.random() * 10000); // 1-9 секунд
-	const RANDOM_AMOUNT: number = Math.ceil(Math.random() * id); // случайное число
+  const RANDOM_TIMEOUT: number = Math.ceil(Math.random() * 10000); // 1-9 секунд
+  const RANDOM_AMOUNT: number = Math.ceil(Math.random() * id); // случайное число
 
-	return new Promise(resolve => setTimeout(() => resolve(RANDOM_AMOUNT), RANDOM_TIMEOUT));
+  return new Promise(resolve => setTimeout(() => resolve(RANDOM_AMOUNT), RANDOM_TIMEOUT));
 }
 
 // данные о шариках
 const BALLONS: { [key: string]: BallonI } = {
-	red: {
-		id: 202,
-		isPublic: true,
-	},
-	blue: {
-		id: 356,
-		isPublic: false,
-	},
-	yellow: {
-		id: 451,
-		isPublic: false,
-	},
-	black: {
-		id: 35,
-		isPublic: true,
-	},
-	green: {
-		id: 191,
-		isPublic: true,
-	},
-	white: {
-		id: 911,
-		isPublic: true,
-	},
+  red: {
+    id: 202,
+    isPublic: true
+  },
+  blue: {
+    id: 356,
+    isPublic: false
+  },
+  yellow: {
+    id: 451,
+    isPublic: false
+  },
+  black: {
+    id: 35,
+    isPublic: true
+  },
+  green: {
+    id: 191,
+    isPublic: true
+  },
+  white: {
+    id: 911,
+    isPublic: true
+  }
 };
 
 // Ваш код здесь
+async function getTotalPublicBallons(): Promise<number> {
+  let total = 0;
+
+  // Проходим по всем шарикам
+  for (const color in BALLONS) {
+    const ballon = BALLONS[color];
+
+    // Проверяем, является ли шарик публичным
+    if (ballon.isPublic) {
+      console.log('request to fetchBallonAmount', ballon.id);
+      // Получаем количество шариков данного цвета
+      const amount = await fetchBallonAmount(ballon.id);
+      total += amount;
+    }
+  }
+
+  return total;
+}
+
+// Пример использования
+getTotalPublicBallons().then(total => {
+  console.log(`Общее количество публичных шариков: ${total}`);
+});
