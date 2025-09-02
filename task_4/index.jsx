@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-export const Block1 = ({ mouseEnterCallbak, imgSrc, imgAlt }) => {
+// index из песочницы не менял, потому что его в репозитории этом нет.
+
+// Универсальный компонент для всех блоков
+export const Block = ({ mouseEnterCallbak, children }) => {
   const [isActive, setActive] = useState(false);
 
   const mouseEnterHandler = () => {
@@ -10,39 +13,28 @@ export const Block1 = ({ mouseEnterCallbak, imgSrc, imgAlt }) => {
 
   return (
     <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
-      <img src={imgSrc} alt={imgAlt} />
+      {children}
     </div>
   );
 };
 
-export const Block2 = ({ mouseEnterCallbak, content }) => {
-  const [isActive, setActive] = useState(false);
+// Компоненты для обратной совместимости
+export const Block1 = ({ mouseEnterCallbak, imgSrc, imgAlt }) => (
+  <Block mouseEnterCallbak={mouseEnterCallbak}>
+    <img src={imgSrc} alt={imgAlt} />
+  </Block>
+);
 
-  const mouseEnterHandler = () => {
-    setActive(true);
-    mouseEnterCallbak();
-  };
+export const Block2 = ({ mouseEnterCallbak, content }) => (
+  <Block mouseEnterCallbak={mouseEnterCallbak}>
+    <p>{content}</p>
+  </Block>
+);
 
-  return (
-    <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
-      <p>{content}</p>
-    </div>
-  );
-};
-
-export const Block3 = ({ mouseEnterCallbak, userData }) => {
-  const [isActive, setActive] = useState(false);
-
-  const mouseEnterHandler = () => {
-    setActive(true);
-    mouseEnterCallbak();
-  };
-
-  return (
-    <div onMouseEnter={mouseEnterHandler} className={isActive ? "active" : ""}>
-      <address>
-        country: {userData.country}, street: {userData.street}
-      </address>
-    </div>
-  );
-};
+export const Block3 = ({ mouseEnterCallbak, userData }) => (
+  <Block mouseEnterCallbak={mouseEnterCallbak}>
+    <address>
+      country: {userData.country}, street: {userData.street}
+    </address>
+  </Block>
+);
